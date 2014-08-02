@@ -10,6 +10,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
+var cron = require('./components/cron.js');
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -32,3 +33,6 @@ server.listen(config.port, config.ip, function () {
 
 // Expose app
 exports = module.exports = app;
+
+// Start cron
+cron.start();
