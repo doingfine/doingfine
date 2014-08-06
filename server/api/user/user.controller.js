@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./user.model');
+var Schedule = require('../schedule/schedule.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
@@ -99,3 +100,21 @@ exports.me = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
+
+/**
+ * Retrieve a users schedules
+ */
+exports.schedules = function(req, res, next) {
+  var userId = req.params.id;
+  
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.send(401);
+    Schedule.find({ _id: {$in : user.schedules }}, function(err, schedules) {
+      if (err) return next(err);
+      res.json(200, schedules);
+    });
+  });
+};
+
+

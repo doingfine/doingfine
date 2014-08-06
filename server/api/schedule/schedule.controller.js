@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Schedule = require('./schedule.model');
+var User = require('../user/user.model');
 
 // Get list of schedules
 exports.index = function(req, res) {
@@ -25,7 +26,16 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   Schedule.create(req.body, function(err, schedule) {
     if(err) { return handleError(res, err); }
-    return res.json(201, schedule);
+    // update user's list of schedules
+    User.findById(req.body.subscriberID, function(err, user) {
+      if (err) { return handleError(res, err); }
+      if(!user) { return res.send(404); }
+      user.schedules.push(schedule._id);
+      user.save(function(err, user) {
+        if (err) { return handleError(res, err); }
+        return res.json(201, schedule);
+      });
+    });
   });
 };
 
