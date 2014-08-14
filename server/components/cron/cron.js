@@ -27,7 +27,13 @@ var sendCheckins = module.exports.sendCheckins = function(err, schedules) {
   if(err) { throw err; };
   var message = ' wants to know you are OK. Please check in by replying with any text message.';
   _.forEach(schedules, function(schedule) {
-    twilio.sendText(schedule.publisherPhone, schedule.subscriberName + message);
+    if(schedule.publisherCheckin === 'SMS'){
+      twilio.sendText(schedule.publisherPhone, schedule.subscriberName + message);
+    } else if(schedule.publisherCheckin === 'Phone') {
+      twilio.call(schedule.publisherPhone)
+    } else {
+      console.log(scheduled.publisherCheckin, ' not valid communication method');
+    }
   });
 };
 

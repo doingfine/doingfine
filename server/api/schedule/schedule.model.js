@@ -6,11 +6,14 @@ var mongoose = require('mongoose'),
 var ScheduleSchema = new Schema({
   days: [Number],
   times: [String],
+  publisherCheckin: String,
   publisherPhone: String,
   publisherName: String,
+  subscriberCommunicationType: String,
+  subscriberEmail: String,
   subscriberPhone: String,
   subscriberName: String,
-  subscriberID: String
+  subscriberID: String //this is the userID from User model
 });
 
 ScheduleSchema.path('days')
@@ -37,5 +40,15 @@ ScheduleSchema.path('subscriberPhone')
   .validate(function(phone){
     return phone[1] === '1'
   }, 'First number in phone number should be 1');
+
+ScheduleSchema.path('publisherCheckin')
+  .validate(function(checkin){
+  }, 'This is the way publisher wants to checkin');
+
+ScheduleSchema.path('subscriberCommunicationType')
+  .validate(function(comm){
+    console.log(comm)
+    //return phone[1] === '1'
+  }, 'This is the way the subscriber wants to be updated');
 
 module.exports = mongoose.model('Schedule', ScheduleSchema);

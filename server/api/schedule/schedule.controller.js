@@ -45,6 +45,8 @@ exports.update = function(req, res) {
   Schedule.findById(req.params.id, function (err, schedule) {
     if (err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
+    schedule.days = req.body.days; // _.merge will not overwrite arrays
+    schedule.times = req.body.times; // ditto
     var updated = _.merge(schedule, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -58,9 +60,17 @@ exports.destroy = function(req, res) {
   Schedule.findById(req.params.id, function (err, schedule) {
     if(err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
+    // Remove the schedule
     schedule.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.send(204);
+    });
+    // Remove schedule from user's schedule
+    User.findById(schedule.subscriberID, function(err, user) {
+      user.schedules.pull(schedule._id);
+      user.save(function(err) {
+        console.log("Schedule removed from user's schedules");
+      });
     });
   });
 };
