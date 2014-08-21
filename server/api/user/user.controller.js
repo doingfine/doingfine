@@ -5,6 +5,7 @@ var Schedule = require('../schedule/schedule.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var _ = require('lodash');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -77,6 +78,22 @@ exports.changePassword = function(req, res, next) {
     } else {
       res.send(403);
     }
+  });
+};
+//updates user info other than password in db
+exports.update = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  User.findById(req.params.id, function (err, user) {
+    if (err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    user.name = req.body.name; // _.merge will not overwrite arrays
+    user.phone = req.body.phone; // ditto
+    user.email = req.body.email; // ditto
+    var updated = _.merge(user, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, user);
+    });
   });
 };
 

@@ -18,6 +18,9 @@ module.exports = {
   GOOGLE_ID: 'app-id',
   GOOGLE_SECRET: 'secret',
 
+  TWILIO_ACCOUNT_SID: 'ACcc6bd88977d0eddd1ff935ecbc2cacee',
+  TWILIO_AUTH_TOKEN: 'c9ba89f331e84936155f1916a5bca2fb',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };

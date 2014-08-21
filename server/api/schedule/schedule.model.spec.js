@@ -73,7 +73,7 @@ describe('Schedule Model', function() {
     });
   });
 
-  it('should fail when saving a phone number that doesnt start with +', function(done) {
+  it('should fail when saving a number without + prefix', function(done) {
     schedule.subscriberPhone = '122345678901';
     schedule.save(function(err) {
       should.exist(err);
@@ -81,7 +81,7 @@ describe('Schedule Model', function() {
     });
   });
 
-  it('should fail when saving a phone number with second char 1', function(done) {
+  it('should fail when saving a number with second char 1', function(done) {
     schedule.subscriberPhone = '+22345678901';
     schedule.save(function(err) {
       should.exist(err);

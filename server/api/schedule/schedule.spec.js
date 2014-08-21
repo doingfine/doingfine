@@ -25,7 +25,12 @@ describe('POST /api/schedules', function() {
 
   it('should add a schedule and attach it to a user', function(done) {
 
-    var testUser = {name: 'Troy Willows', password: 'dummy', phone: '+18027958866', email: 'me@good.com'};
+    var testUser = {
+      name: 'Troy Willows',
+      password: 'dummy',
+      phone: '+18027958866',
+      email: 'me@good.com'
+    };
     var newSched = {days: [1,2,3,4,5,6,7], times: ['09:00', '18:00']};
 
     var getNew = function(id) {

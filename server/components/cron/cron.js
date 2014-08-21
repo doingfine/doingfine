@@ -5,7 +5,8 @@ var moment = require('moment');
 var _ = require('lodash');
 moment().format();
 
-// get Day as 0-6 and Time as '13:15' for Now (used to search schedules, then send checkins)
+// get Day as 0-6 and Time as '13:15'
+// (used to search schedules, then send checkins)
 var getDayTime = module.exports.getDayTime = function() {
   var date = {};
   var now = moment().utc().zone('-07:00');
@@ -25,9 +26,9 @@ var getDayTime = module.exports.getDayTime = function() {
 // send checkin updates to subscriber of each schedule passed in
 var sendCheckins = module.exports.sendCheckins = function(err, schedules) {
   if(err) { throw err; };
-  var message = ' wants to know you are OK. Please check in by replying with any text message.';
   _.forEach(schedules, function(schedule) {
     if(schedule.publisherCheckin === 'SMS'){
+      var message = ' wants to know you are OK. Please check in by replying with any text message.';
       twilio.sendText(schedule.publisherPhone, schedule.subscriberName + message);
     } else if(schedule.publisherCheckin === 'Phone') {
       twilio.call(schedule.publisherPhone)

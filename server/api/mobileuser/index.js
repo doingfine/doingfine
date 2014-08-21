@@ -12,4 +12,6 @@ router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 router.post('/:id/verify', controller.verify);
+router.get('/:id/friends', controller.getFriends);
+router.post('/:id/friends', controller.addFriends);
 module.exports = router;
