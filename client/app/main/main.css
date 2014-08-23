@@ -4,9 +4,11 @@
 }
 
 #banner h1 {
-    font-size: 60px;
+    font-family: 'Pacifico', cursive;
+    font-size: 84px;
     line-height: 1;
     letter-spacing: -1px;
+    color: #35cfc7;
 }
 
 .hero-unit {
@@ -16,6 +18,11 @@
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     /*background: #4393B9; */
+}
+
+p.lead {
+    margin-top: 50px;
+    color: #35cfc7;
 }
 
 .footer {

@@ -28,7 +28,7 @@ angular.module('doingFineApp')
 
     User.get(function(result){
       $scope.user = result;
-      if("+1" === result.phone.slice(0,2)){
+      if('+1' === result.phone.slice(0,2)){
         $scope.user.phone = result.phone.slice(2);
       }
     });
