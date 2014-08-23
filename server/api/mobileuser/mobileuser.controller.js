@@ -57,7 +57,16 @@ exports.create = function(req, res) {
           twilio.sendText(req.body.phone, 'DoingFine confirmation code: ' + code);
           updateById(foundUser._id, req, res);
         } else {
-          return res.send(403, 'User already exists');
+          if(foundUser.first === req.body.first && foundUser.last === req.body.last){
+            _.merge(foundUser, req.body);
+            foundUser.save(function(err){
+              if (err) { return handleError(res, err); }
+              twilio.sendText(req.body.phone, 'DoingFine confirmation code: ' + code);
+              return res.send(200, 'Idfv updated. Sending Confirmation code.');
+            });
+          } else {
+            return res.send(403, 'Phone Number already exists');
+          }
         }
       } else {
         return res.send(403, 'Friend already exists');
@@ -130,6 +139,7 @@ exports.addFriends = function(req, res) {
     });
   });
 }
+
 function handleError(res, err) {
   return res.send(500, err);
 }
