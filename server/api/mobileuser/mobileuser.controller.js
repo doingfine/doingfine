@@ -140,6 +140,18 @@ exports.addFriends = function(req, res) {
   });
 }
 
+// Accept or reject phone number + idfv combination
+exports.login = function(req, res) {
+  var credentials = {phone: req.body.phone, idfv: req.body.idfv};
+  Mobileuser.find(credentials, function(err, mobileuser){
+    if (err) { return handleError(res, err); }
+    if(mobileuser.length === 0 || !mobileuser[0].verified) {
+      return res.send(404);
+    }
+    return res.json(200, mobileuser);
+  });
+};
+
 function handleError(res, err) {
   return res.send(500, err);
 }

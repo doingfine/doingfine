@@ -14,4 +14,5 @@ router.delete('/:id', controller.destroy);
 router.post('/:id/verify', controller.verify);
 router.get('/:id/friends', controller.getFriends);
 router.post('/:id/friends', controller.addFriends);
+router.post('/login', controller.login);
 module.exports = router;
